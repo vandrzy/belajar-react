@@ -19,6 +19,18 @@ type User ={
   password: string
 }
 
+type Fruit = {
+  id: number,
+  name: string
+}
+
+const fruits: Fruit[] = [
+  { id: 1, name: "Apple" },
+  { id: 2, name: "Banana" },
+  { id: 3, name: "Orange" },
+];
+
+
 // const [isLogin, setIsLogin] = useState<boolean>(false) // use state tidak boleh global
 
 const HelloName = ({name}: Props) => { // functional component 
@@ -86,6 +98,16 @@ const LoginButton = ({isLogin, setIsLogin}: LoginProps) => {
   )
 }
 
+const ShowFruit = () => {
+  return (
+    <ul>
+      {fruits.map((fruit) => {
+        return <li key={fruit.id}>{fruit.name}</li>
+      })}
+    </ul>
+  )
+}
+
 const App = () => {
 
   const [isLogin, setIsLogin] = useState<boolean>(false);
@@ -98,6 +120,7 @@ const App = () => {
       <LoginState />
       <Greeting  isLogin={isLogin}/>
       <LoginButton isLogin={isLogin} setIsLogin={setIsLogin}/> 
+      <ShowFruit />
     </div>
   )
 }
