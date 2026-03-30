@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
 type Props = { //props untuk mengirim data dari parent ke child component
   name: string
@@ -9,11 +9,17 @@ type UserProps = {
   age: number,
   location?: string
 }
+type LoginProps = {
+  isLogin: boolean,
+  setIsLogin: React.Dispatch<React.SetStateAction<boolean>>
+}
 
 type User ={
   username: string,
   password: string
 }
+
+// const [isLogin, setIsLogin] = useState<boolean>(false) // use state tidak boleh global
 
 const HelloName = ({name}: Props) => { // functional component 
   return (
@@ -34,13 +40,13 @@ const ShowIdentity = ({name, age, location = "dimana rumahnya"}: UserProps) => {
 }
 
 const CounterButton = () => {
-  const [count, setCount] = useState<number>(0);
+  const [count, setCount] = useState<number>(0); //useState
 
   return (
     <div>
       <p>{count}</p>
-      <button onClick={() => setCount(count+1)}>tambah</button>
       <button onClick={() => setCount(count -1)}>kurang</button>
+      <button onClick={() => setCount(count+1)}>tambah</button>
     </div>
   )
 }
@@ -57,7 +63,32 @@ const LoginState = () => {
   )
 }
 
+
+
+const Greeting = ({isLogin}: {isLogin: boolean} ) => { //conditional rendering
+  let message;
+  if (isLogin) {
+    message = <h1>Welcome back!</h1>;
+  } else {
+    message = <h1>Please sign in.</h1>;
+  }
+
+  return <div>{message}</div>;
+};
+
+const LoginButton = ({isLogin, setIsLogin}: LoginProps) => {
+  return (
+
+    <div>
+      {!isLogin && <button onClick={() => setIsLogin(true)}>login</button>}
+      {isLogin && <button onClick={() => setIsLogin(false)}>logout</button>}
+    </div>
+  )
+}
+
 const App = () => {
+
+  const [isLogin, setIsLogin] = useState<boolean>(false);
   return (
     <div>
       <h1>Hello world</h1>
@@ -65,6 +96,8 @@ const App = () => {
       <ShowIdentity name='kida' age={20}/>
       <CounterButton/>
       <LoginState />
+      <Greeting  isLogin={isLogin}/>
+      <LoginButton isLogin={isLogin} setIsLogin={setIsLogin}/> 
     </div>
   )
 }
