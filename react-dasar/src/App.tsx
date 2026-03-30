@@ -1,8 +1,4 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-// import './App.css'
+import { useState } from "react";
 
 type Props = { //props untuk mengirim data dari parent ke child component
   name: string
@@ -12,6 +8,11 @@ type UserProps = {
   name: string,
   age: number,
   location?: string
+}
+
+type User ={
+  username: string,
+  password: string
 }
 
 const HelloName = ({name}: Props) => { // functional component 
@@ -32,12 +33,38 @@ const ShowIdentity = ({name, age, location = "dimana rumahnya"}: UserProps) => {
   )
 }
 
+const CounterButton = () => {
+  const [count, setCount] = useState<number>(0);
+
+  return (
+    <div>
+      <p>{count}</p>
+      <button onClick={() => setCount(count+1)}>tambah</button>
+      <button onClick={() => setCount(count -1)}>kurang</button>
+    </div>
+  )
+}
+
+const LoginState = () => {
+  const [user, setUser] = useState<User>({username: "",password: ""});
+
+  return (
+    <div>
+      <input type="text" onChange={(e) => setUser({...user, username: e.target.value})} />
+
+      <h2>hello {user.username}</h2>
+    </div>
+  )
+}
+
 const App = () => {
   return (
     <div>
       <h1>Hello world</h1>
       <HelloName name="kuda"/>
       <ShowIdentity name='kida' age={20}/>
+      <CounterButton/>
+      <LoginState />
     </div>
   )
 }
