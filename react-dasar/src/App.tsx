@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 type Props = { //props untuk mengirim data dari parent ke child component
   name: string
@@ -89,6 +89,10 @@ const Greeting = ({isLogin}: {isLogin: boolean} ) => { //conditional rendering
 };
 
 const LoginButton = ({isLogin, setIsLogin}: LoginProps) => {
+  
+  useEffect(() => {
+    console.log('status login berubah');
+  }, [isLogin])
   return (
 
     <div>
@@ -108,6 +112,32 @@ const ShowFruit = () => {
   )
 }
 
+type Image = {
+  url: string
+}
+
+const FetchApi = () => {
+  const [images, setImages]= useState<Image[]>([])
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch("https://api.waifu.im/images");
+      const data = await response.json();
+      
+      const url = data.items.map((item: {url: string}) => ({url: item.url}))
+      setImages(url)
+    }
+    fetchData();
+  }, [])
+
+  return (
+    <div>
+      {images.map((image, index) => (
+        <img key={index} src={image.url} alt=""  width="200"/>
+      ))}
+    </div>
+  )
+}
+
 const App = () => {
 
   const [isLogin, setIsLogin] = useState<boolean>(false);
@@ -121,6 +151,7 @@ const App = () => {
       <Greeting  isLogin={isLogin}/>
       <LoginButton isLogin={isLogin} setIsLogin={setIsLogin}/> 
       <ShowFruit />
+      <FetchApi />
     </div>
   )
 }
