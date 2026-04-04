@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import ImageData from "./components/ImageData";
 import ImageRefresh from "./components/ImageRefresh";
+import ChildrenProps from "./components/ChildrenComp";
+import ImageUseHooks from "./components/ImageUseHooks";
 
 type Props = { //props untuk mengirim data dari parent ke child component
   name: string
@@ -156,6 +158,9 @@ const App = () => {
       {/* <FetchApi />
       <ImageData /> */}
       <ImageRefresh />
+      <ChildrenProps>
+        <ImageUseHooks />
+        </ChildrenProps> 
     </div>
   )
 }
