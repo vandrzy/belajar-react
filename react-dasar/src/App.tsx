@@ -3,6 +3,9 @@ import ImageData from "./components/ImageData";
 import ImageRefresh from "./components/ImageRefresh";
 import ChildrenProps from "./components/ChildrenComp";
 import ImageUseHooks from "./components/ImageUseHooks";
+import AppButton from "./components/Button";
+import ToDoCard from "./components/TodoCard";
+import ToDoPage from "./pages/ToDoPage";
 
 type Props = { //props untuk mengirim data dari parent ke child component
   name: string
@@ -142,12 +145,21 @@ const FetchApi = () => {
   )
 }
 
+
+
+const insertData = () => {
+    console.log("data telah disimpan")
+}
+const deleteData = () => {
+    console.log("data telah dihapus")
+}
+
 const App = () => {
 
   const [isLogin, setIsLogin] = useState<boolean>(false);
   return (
     <div>
-      <h1>Hello world</h1>
+      {/* <h1>Hello world</h1>
       <HelloName name="kuda"/>
       <ShowIdentity name='kida' age={20}/>
       <CounterButton/>
@@ -155,12 +167,14 @@ const App = () => {
       <Greeting  isLogin={isLogin}/>
       <LoginButton isLogin={isLogin} setIsLogin={setIsLogin}/> 
       <ShowFruit />
-      {/* <FetchApi />
-      <ImageData /> */}
+      <FetchApi />
+      <ImageData />
       <ImageRefresh />
       <ChildrenProps>
         <ImageUseHooks />
-        </ChildrenProps> 
+        </ChildrenProps>  */}
+      {/* <ToDoCard data={{name: "ini dummy", description: "deskripsi dummy", id: 1}} callbacks={{insertData, deleteData}}/> */}
+      <ToDoPage />
     </div>
   )
 }

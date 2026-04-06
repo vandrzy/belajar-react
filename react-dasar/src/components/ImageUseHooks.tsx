@@ -10,14 +10,14 @@ const ImageUseHooks = () => {
         <div>
             {isLoading && <p>Components sedang loading</p>}
             {error && <p>{error}</p>}
-            {!isLoading && <button onClick={updateTriggered}>Refresh</button>}
+            {!isLoading && <button className="border border-solid border-blue-400 rounded-md bg-green-400" onClick={updateTriggered}>Refresh</button>}
             {!isLoading && !error && data && <div>
                 {data.items.map(image => (
                     <div key={image.id}>
                         <img  src={image.url} width="300" alt="" />
                         {image.artists?.map(artist =>(
                             <div key={artist.id}>
-                                <p>{artist.name}</p>
+                                <p className="text-blue-500">{artist.name}</p>
                                 <p>{artist.twitter}</p>
                             </div>
                         ))}
