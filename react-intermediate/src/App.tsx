@@ -7,6 +7,7 @@ import Card from './components/Card'
 import { UserProvider } from './contexts/UserContext'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
+import BlogForm from './pages/blogForm'
 
 const App = () => {
   return (
@@ -24,7 +25,9 @@ const App = () => {
         <Navbar />
         <Footer />
       </UserProvider>
+      <BlogForm />
     </div>
+
   )
 }
 
