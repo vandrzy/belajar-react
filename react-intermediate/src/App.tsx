@@ -8,6 +8,7 @@ import { UserProvider } from './contexts/UserContext'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import BlogForm from './pages/blogForm'
+import ToDoForm from './pages/todoForm'
 
 const App = () => {
   return (
@@ -26,6 +27,8 @@ const App = () => {
         <Footer />
       </UserProvider>
       <BlogForm />
+
+      <ToDoForm />
     </div>
 
   )
