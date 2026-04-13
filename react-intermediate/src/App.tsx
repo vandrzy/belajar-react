@@ -9,6 +9,7 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import BlogForm from './pages/blogForm'
 import ToDoForm from './pages/todoForm'
+import ImageAnime from './components/ImageAnime'
 
 const App = () => {
   return (
@@ -29,6 +30,7 @@ const App = () => {
       <BlogForm />
 
       <ToDoForm />
+      <ImageAnime />
     </div>
 
   )
