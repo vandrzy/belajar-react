@@ -1,4 +1,3 @@
-import type { SetStateAction } from "react";
 
 
 interface Props {

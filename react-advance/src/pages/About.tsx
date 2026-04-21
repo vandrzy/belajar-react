@@ -1,6 +1,8 @@
 import { useCallback, useState } from "react"
 import HiddenItems from "../components/HiddenItems"
 import Navbar from "../components/Navbar"
+import ErrorTrigger from "../components/ErrorTrigger"
+import ErrorBoundary from "../components/ErrorBoundary"
 
 
 const About = () => {
@@ -14,6 +16,9 @@ const About = () => {
   return (
     <div>
         <Navbar/>
+        <ErrorBoundary>
+          <ErrorTrigger/>
+        </ErrorBoundary> 
             <p>ini about</p>
     <HiddenItems isTrigger={isTrigger} handleTrigger={setTrigger}/>
       
