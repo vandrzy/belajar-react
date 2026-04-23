@@ -1,5 +1,6 @@
 
 import BlogCard from "../components/BlogCard"
+import MouseTracker from "../components/MouseTracker"
 import Navbar from "../components/Navbar"
 
 
@@ -14,6 +15,11 @@ const Home = () => {
             <p>ini home</p>
             
             <BlogCard blog={blog} />
+            <MouseTracker>
+                {({x, y}) => (<p>
+                    Mouse pada ({x}, {y});
+                </p>)}
+            </MouseTracker>
         </div>
     )
 
