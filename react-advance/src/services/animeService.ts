@@ -3,7 +3,7 @@ import type { Anime } from "../type/Anime"
 
 
 export const animeService = {
-    getAnimes(){
-        return apiRequest<Anime>({url: "/images", params: {PageSize: 10, Page:1}})
+    getAnimes(page: number){
+        return apiRequest<Anime>({url: "/images", params: {PageSize: 10, Page:page}})
     }
 }

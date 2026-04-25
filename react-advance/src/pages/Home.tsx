@@ -1,9 +1,11 @@
 
+import { useState } from "react"
 import BlogCard from "../components/BlogCard"
 import ImageCard from "../components/ImageCard"
 import MouseTracker from "../components/MouseTracker"
 import Navbar from "../components/Navbar"
 import useAnime from "../hooks/useAnime"
+import Pagination from "../components/Pagination"
 
 
 const Home = () => {
@@ -11,8 +13,9 @@ const Home = () => {
         title: "Blog dummy",
         body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam, quis!"
       }
+    const [page, setPage] = useState(1);
 
-    const {data, isError, isLoading, error} = useAnime()
+    const {data, isError, isLoading, error} = useAnime(page);
     return (
         <div>
             <Navbar/>
@@ -26,6 +29,7 @@ const Home = () => {
             </MouseTracker>
             {isLoading && <p>Loading ....</p>}
             {isError && <p>Error : {error?.name}</p>}
+            {!isLoading && !isError && data && <Pagination currentPage={data.pageNumber} totalPage={data.totalPage} onChangePage={setPage} />}
             {!isLoading && !isError && data && <div>
                 <p>Page: {data.pageNumber}</p>
                 <p>Total Page: {data.totalPage}</p>
