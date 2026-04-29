@@ -4,22 +4,24 @@ import Modal from "../components/Modal"
 import Navbar from "../components/Navbar";
 
 
-const Login = () => {
+const Register = () => {
     const [isOpen, setIsOpen] = useState(false);
     
     return (
         <div className="">
             <Navbar/>
-            <AuthForm mode="login" onSubmit={() => setIsOpen(true)}>
+            <AuthForm mode="signup" onSubmit={() => setIsOpen(true)}>
+                <AuthForm.Username/>
                 <AuthForm.Email/>
                 <AuthForm.Password/>
+                <AuthForm.ConfirmPassword/>
                 <AuthForm.Submit/>
             </AuthForm>
             <Modal isOpen={isOpen} closeModal={() => setIsOpen(false)}>
-                Success login
+                Success Regis
             </Modal> 
         </div>
     )
 }
 
-export default Login;
+export default Register;

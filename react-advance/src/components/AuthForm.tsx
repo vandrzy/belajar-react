@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
+import { loginSchema, signUpSchema } from "../schemas/authSchema";
 
 type Mode = "login"|"signup"
 type AuthContextType = {
@@ -6,14 +7,13 @@ type AuthContextType = {
     username: string;
     email: string;
     password: string;
-    comfirmPassword: string;
+    confirmPassword: string;
+    errors: Record<string, string>
 
     setUsername: (value: string)=>void;
     setEmail: (value: string)=>void;
     setPassword: (value: string)=>void;
-    setComfirmPassword: (value: string)=>void;
-
-    handleSubmit: () => void;
+    setConfirmPassword: (value: string)=>void;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -30,82 +30,103 @@ const useAuthContext = () => {
 
 interface AuthFormProps {
     children: ReactNode,
-    mode: Mode
+    mode: Mode,
+    onSubmit: () => void,
 }
 
-const AuthForm = ({children, mode}: AuthFormProps) => {
+const AuthForm = ({children, mode, onSubmit}: AuthFormProps) => {
     const [username, setUsername] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-    const [comfirmPassword, setComfirmPassword] = useState("")
+    const [confirmPassword, setConfirmPassword] = useState("")
+    const [errors, setErrors] = useState<Record<string, string>>({});
 
-    const handleSubmit = () => {
-        if (mode === "login"){
-            console.log("login")
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const formData = {username, email, password, confirmPassword};
+        const schema = mode === "login" ? loginSchema : signUpSchema;
+        const result = schema.safeParse(formData);
+        if (!result.success) {
+            const fieldError: Record<string, string> = {}
+            result.error.issues.forEach((err) => {
+                const field = err.path[0] as string;
+                fieldError[field] = err.message;
+            });
+            setErrors(fieldError);
+            return
         }
-        if (mode === "signup"){
-            console.log("signUp")
-        }
+        setErrors({});
+        setUsername("");
+        setEmail(""),
+        setPassword("");
+        setConfirmPassword("");
+        console.log(formData);
+        
+        onSubmit();
     }
 
     return (
-        <AuthContext.Provider value={{mode, username, email, password, comfirmPassword, setUsername, setEmail, setPassword, setComfirmPassword, handleSubmit}}>
-            <div className="p-4 flex flex-col items-center justify-center gap-4 w-80">
+        <AuthContext.Provider value={{mode, username, email, password, confirmPassword, setUsername, setEmail, setPassword, setConfirmPassword, errors}}>
+            <form onSubmit={handleSubmit} className="p-4 flex flex-col items-center justify-center gap-4 w-80">
                 {children}
-            </div>
+            </form>
 
         </AuthContext.Provider>
     )
 }
 
 const Username = () => {
-    const {username, setUsername} = useAuthContext();
+    const {username, setUsername, errors} = useAuthContext();
 
     return (
         <div className="flex flex-col gap-0.5">
             <label htmlFor="username" className="text-slate-600">Username</label>
             <input id="usename" type="text" placeholder="Type username...." value={username} onChange={(e) => setUsername(e.target.value)} className="p-1 border-solid border-2 rounded-sm w-full border-slate-600 focus:border-sky-400 focus:outline-none"/>
+            {errors.username && (<p className="text-red-500">{errors.username}</p>)}
         </div>
     )
 }
 
 const Password = () => {
-    const {password, setPassword} = useAuthContext();
-
+    const {password, setPassword, errors} = useAuthContext();
+    
     return (
         <div className="flex flex-col gap-0.5">
             <label htmlFor="password" className="text-slate-600">Password</label>
             <input id="password" type="password" placeholder="Type password...." value={password} onChange={(e) => setPassword(e.target.value)} className="p-1 border-solid border-2 rounded-sm w-full border-slate-600 focus:border-sky-400 focus:outline-none"/>
+            {errors.password && (<p className="text-red-500">{errors.password}</p>)}
         </div>
     )
 }
 
 const ConfirmPassword = () => {
-    const {comfirmPassword, setComfirmPassword} = useAuthContext();
-
+    const {confirmPassword, setConfirmPassword, errors} = useAuthContext();
+    
     return (
         <div className="flex flex-col gap-0.5">
-            <label htmlFor="comfirmPassword" className="text-slate-600">Comfirm Password</label>
-            <input id="comfirmPassword" type="comfirmPassword" placeholder="Type comfirmPassword...." value={comfirmPassword} onChange={(e) => setComfirmPassword(e.target.value)} className="p-1 border-solid border-2 rounded-sm w-full border-slate-600 focus:border-sky-400 focus:outline-none"/>
+            <label htmlFor="confirmPassword" className="text-slate-600">Comfirm Password</label>
+            <input id="confirmPassword" type="confirmPassword" placeholder="Type confirmPassword...." value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className="p-1 border-solid border-2 rounded-sm w-full border-slate-600 focus:border-sky-400 focus:outline-none"/>
+            {errors.confirmPassword && (<p className="text-red-500">{errors.confirmPassword}</p>)}
         </div>
     )
 }
 
 const Email =() => {
-    const {email, setEmail} = useAuthContext();
-
+    const {email, setEmail, errors} = useAuthContext();
+    
     return (
         <div className="flex flex-col gap-0.5">
-            <label htmlFor="email" className="text-slate-600">Comfirm Password</label>
+            <label htmlFor="email" className="text-slate-600">Email</label>
             <input id="email" type="email" placeholder="Type email...." value={email} onChange={(e) => setEmail(e.target.value)} className="p-1 border-solid border-2 rounded-sm w-full border-slate-600 focus:border-sky-400 focus:outline-none"/>
+            {errors.email && (<p className="text-red-500">{errors.email}</p>)}
         </div>
     )
 }
 
 const Submit =  () => {
-    const {handleSubmit, mode} = useAuthContext()
+    const {mode} = useAuthContext()
     return (
-        <button onClick={handleSubmit} className="bg-blue-400 px-4 py-2 rounded">
+        <button type="submit" className="bg-blue-400 px-4 py-2 rounded">
             {mode === "login" ? "Log In" : "Sign Up"}
         </button>
     )
