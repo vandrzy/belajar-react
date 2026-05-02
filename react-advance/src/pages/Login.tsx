@@ -21,7 +21,8 @@ const Login = () => {
     const handleSubmit = async (data: LoginPayload, resetForm: () => void) => {
         try{
             const response = await loginMutation.mutateAsync(data);
-            setModalData({type: "success", message: response.message, timestamps: response.timestamps, data: response.data})
+            setModalData({type: "success", message: response.message, timestamps: response.timestamps, data: response.data});
+            localStorage.setItem("accessToken", response.data.token);
             resetForm();
         }catch(error: any){
             setModalData({type: "error", timestamps: error.response?.data?.timestamps, message: error.response?.data?.message ?? "ada yang salah"});

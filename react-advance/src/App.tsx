@@ -7,6 +7,7 @@ const About = lazy(() => (import("./pages/About")))
 const Contact = lazy(() => (import("./pages/Contact")))
 const Register = lazy(() => (import("./pages/Register")));
 const Login = lazy(() => (import("./pages/Login")));
+const User = lazy(() => (import("./pages/User")));
 
 
 
@@ -20,6 +21,7 @@ function App() {
           <Route path="/contact" element={<Contact/>}/>
           <Route path="/register" element={<Register/>}/>
           <Route path="/login" element={<Login/>}/>
+          <Route path="/user" element={<User/>}/>
         </Routes>
       </Suspense>
 

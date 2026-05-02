@@ -1,9 +1,9 @@
-import axios from "axios";
 import type { AuthResponse, SignUpPayload, SignUpResponse } from "../../type/Auth";
+import authApi from "../../lib/authApi";
 
 
 const registerService = async (payload: SignUpPayload): Promise<AuthResponse<SignUpResponse>> => {
-    const response = await axios.post("http://localhost:3000/api/auth/register", payload);
+    const response = await authApi.post("/auth/register", payload);
     return response.data;
 }
 
