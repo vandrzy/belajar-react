@@ -7,3 +7,4 @@ export const animeService = {
         return apiRequest<Anime>({url: "/images", params: {PageSize: 10, Page:page}})
     }
 }
+

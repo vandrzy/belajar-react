@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
 import { loginSchema, signUpSchema } from "../schemas/authSchema";
+import type { LoginPayload, SignUpPayload } from "../type/Auth";
 
 type Mode = "login"|"signup"
 type AuthContextType = {
@@ -28,10 +29,16 @@ const useAuthContext = () => {
 }
 
 
-interface AuthFormProps {
+type AuthFormProps =  
+|{
     children: ReactNode,
-    mode: Mode,
-    onSubmit: () => void,
+    mode: "signup",
+    onSubmit: (payload: SignUpPayload, resetForm: () => void) => void,
+}
+|{
+    children: ReactNode,
+    mode: "login",
+    onSubmit: (payload: LoginPayload, resetForm: () => void) => void,
 }
 
 const AuthForm = ({children, mode, onSubmit}: AuthFormProps) => {
@@ -41,6 +48,13 @@ const AuthForm = ({children, mode, onSubmit}: AuthFormProps) => {
     const [confirmPassword, setConfirmPassword] = useState("")
     const [errors, setErrors] = useState<Record<string, string>>({});
 
+    const resetForm = () => {
+        setUsername("");
+        setEmail(""),
+        setPassword("");
+        setConfirmPassword("");
+    }
+    
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const formData = {username, email, password, confirmPassword};
@@ -56,13 +70,21 @@ const AuthForm = ({children, mode, onSubmit}: AuthFormProps) => {
             return
         }
         setErrors({});
-        setUsername("");
-        setEmail(""),
-        setPassword("");
-        setConfirmPassword("");
         console.log(formData);
         
-        onSubmit();
+        if (mode === "signup"){
+            const payload: SignUpPayload = {
+                username, email, password
+            }
+            onSubmit(payload, resetForm);
+        }
+        if (mode === "login"){
+            const payload: LoginPayload = {
+                email, password
+            }
+            onSubmit(payload, resetForm);
+        }
+        
     }
 
     return (
