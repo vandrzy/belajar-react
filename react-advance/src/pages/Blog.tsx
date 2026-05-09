@@ -8,7 +8,7 @@ const Blog = () => {
     <div>
       <button
         onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-        className="p-1 text-lg rounded bg-sky-400 dark:bg-indigo-700"
+        className="p-1 text-lg rounded bg-sky-400 dark:bg-indigo-700 text-white"
       >
         {theme === "dark" ? "light" : "dark"}
       </button>

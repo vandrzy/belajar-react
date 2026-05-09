@@ -1,7 +1,6 @@
 import { useState } from "react";
 import AuthForm from "../components/AuthForm";
 import Modal from "../components/Modal";
-import Navbar from "../components/Navbar";
 import useRegister from "../hooks/useRegister";
 import { type SignUpPayload } from "../type/Auth";
 
@@ -43,7 +42,6 @@ const Register = () => {
 
   return (
     <div className="">
-      <Navbar />
       <AuthForm mode="signup" onSubmit={handleSubmit}>
         <AuthForm.Username />
         <AuthForm.Email />
