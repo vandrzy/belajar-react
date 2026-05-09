@@ -2,6 +2,7 @@
 import { lazy, Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RootLayout from "./layouts/RootLayout";
+import authLoader from "./utils/authLoader";
 
 const Home = lazy(() => import("./pages/Home"));
 const About = lazy(() => import("./pages/About"));
@@ -44,8 +45,7 @@ const router = createBrowserRouter([
         path: "about",
         element: (
           <Suspense>
-            {" "}
-            <About />{" "}
+            <About />
           </Suspense>
         ),
       },
@@ -53,7 +53,7 @@ const router = createBrowserRouter([
         path: "contact",
         element: (
           <Suspense>
-            <Contact />{" "}
+            <Contact />
           </Suspense>
         ),
       },
@@ -85,6 +85,7 @@ const router = createBrowserRouter([
             <User />
           </Suspense>
         ),
+        loader: authLoader,
       },
       {
         path: "blog",
